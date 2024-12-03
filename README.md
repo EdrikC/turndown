@@ -1,5 +1,5 @@
 ### Modified code works in conjunction with this custom paragraph rule:
-```
+```python
 turndownService.current.addRule('customParagraph', {
   filter: 'p',
   replacement: function (content, node) {
