@@ -10,13 +10,21 @@ rules.paragraph = {
   }
 }
 
+// Ensure that multiple newlines are created for each break tag
 rules.lineBreak = {
   filter: 'br',
-
-  replacement: function (content, node, options) {
-    return options.br + '\n'
-  }
-}
+   replacement: function (content, node, options) {
+     // Count consecutive <br> tags
+     let brCount =1;
+     let nextNode = node.nextSibling;
+     while (nextNode && nextNode.nodeName === 'BR') {
+       brCount++;
+       nextNode = nextNode.nextSibling;
+     }
+     // Return the appropriate number of newlines
+     return options.br + '\n'.repeat(brCount);
+   }
+ };
 
 rules.heading = {
   filter: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],

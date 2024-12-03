@@ -218,11 +218,17 @@ function replacementForNode (node) {
  * @type String
  */
 
+// Modify the join function to preserve newlines.
 function join (output, replacement) {
   var s1 = trimTrailingNewlines(output)
   var s2 = trimLeadingNewlines(replacement)
-  var nls = Math.max(output.length - s1.length, replacement.length - s2.length)
-  var separator = '\n\n'.substring(0, nls)
+  // Calculate the number of newlines trimmed from output and replacement
+  var outputNewlines = output.length - s1.length
+  var replacementNewlines = replacement.length - s2.length
+  var totalNewlines = outputNewlines + replacementNewlines
+
+  // Create a separator that preserves the number of newlines
+  var separator = '\n'.repeat(totalNewlines)
 
   return s1 + separator + s2
 }

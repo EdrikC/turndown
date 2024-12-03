@@ -9,6 +9,9 @@ export default function Node (node, options) {
 }
 
 function isBlank (node) {
+  if (hasBr(node)) {
+    return false;
+  }
   return (
     !isVoid(node) &&
     !isMeaningfulWhenBlank(node) &&
@@ -18,6 +21,11 @@ function isBlank (node) {
   )
 }
 
+// Helper function to check if node contains <br> elements
+function hasBr(node) {
+  return node.querySelector && node.querySelector('br') !== null;
+}
+
 function flankingWhitespace (node, options) {
   if (node.isBlock || (options.preformattedCode && node.isCode)) {
     return { leading: '', trailing: '' }
@@ -25,15 +33,15 @@ function flankingWhitespace (node, options) {
 
   var edges = edgeWhitespace(node.textContent)
 
-  // abandon leading ASCII WS if left-flanked by ASCII WS
-  if (edges.leadingAscii && isFlankedByWhitespace('left', node, options)) {
-    edges.leading = edges.leadingNonAscii
-  }
+  // // abandon leading ASCII WS if left-flanked by ASCII WS
+  // if (edges.leadingAscii && isFlankedByWhitespace('left', node, options)) {
+  //   edges.leading = edges.leadingNonAscii
+  // }
 
-  // abandon trailing ASCII WS if right-flanked by ASCII WS
-  if (edges.trailingAscii && isFlankedByWhitespace('right', node, options)) {
-    edges.trailing = edges.trailingNonAscii
-  }
+  // // abandon trailing ASCII WS if right-flanked by ASCII WS
+  // if (edges.trailingAscii && isFlankedByWhitespace('right', node, options)) {
+  //   edges.trailing = edges.trailingNonAscii
+  // }
 
   return { leading: edges.leading, trailing: edges.trailing }
 }
@@ -42,11 +50,11 @@ function edgeWhitespace (string) {
   var m = string.match(/^(([ \t\r\n]*)(\s*))(?:(?=\S)[\s\S]*\S)?((\s*?)([ \t\r\n]*))$/)
   return {
     leading: m[1], // whole string for whitespace-only strings
-    leadingAscii: m[2],
-    leadingNonAscii: m[3],
+    leadingAscii: '',
+    leadingNonAscii: '',
     trailing: m[4], // empty for whitespace-only strings
-    trailingNonAscii: m[5],
-    trailingAscii: m[6]
+    trailingNonAscii: '',
+    trailingAscii: ''
   }
 }
 

@@ -12,15 +12,17 @@ export function repeat (character, count) {
   return Array(count + 1).join(character)
 }
 
-export function trimLeadingNewlines (string) {
-  return string.replace(/^\n*/, '')
+// Do not trim any new lines.
+export function trimLeadingNewlines(string) {
+  return string
 }
 
-export function trimTrailingNewlines (string) {
-  // avoid match-at-end regexp bottleneck, see #370
-  var indexEnd = string.length
-  while (indexEnd > 0 && string[indexEnd - 1] === '\n') indexEnd--
-  return string.substring(0, indexEnd)
+// Keep trailing new lines.
+export function trimTrailingNewlines(string) {
+  // var indexEnd = string.length
+  // while (indexEnd > 0 && string[indexEnd - 1] === '\n') indexEnd--
+  // return string.substring(0, indexEnd)
+  return string
 }
 
 export var blockElements = [

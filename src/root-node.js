@@ -20,7 +20,10 @@ export default function RootNode (input, options) {
     element: root,
     isBlock: isBlock,
     isVoid: isVoid,
-    isPre: options.preformattedCode ? isPreOrCode : null
+    isPre: function (node) {
+      // Treat <br> elements as preformatted to prevent collapsing
+      return node.nodeName === 'PRE' || node.nodeName === 'CODE' || node.nodeName === 'BR'
+    }
   })
 
   return root
