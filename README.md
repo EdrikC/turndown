@@ -1,3 +1,27 @@
+### Modified code works in conjunction with this custom paragraph rule:
+```
+turndownService.current.addRule('customParagraph', {
+  filter: 'p',
+  replacement: function (content, node) {
+    // Trim the content to check if it's empty or contains only whitespace
+    const trimmedContent = content.trim();
+
+    // Check if the paragraph is empty or contains only <br> or whitespace
+    if (!trimmedContent) {
+      // For empty paragraphs, return a single newline
+      return '\n';
+    } else {
+      // For non-empty paragraphs, return content with a single newline
+      return content + '\n';
+    }
+  }
+});
+```
+
+
+
+
+
 # Turndown
 
 Convert HTML into Markdown with JavaScript.
